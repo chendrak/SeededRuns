@@ -1,7 +1,4 @@
-using SeededRuns.Extensions;
 using UnityEngine;
-using UnityEngine.UI;
-
 namespace SeededRuns.Helpers;
 
 public static class UiHelper
@@ -14,13 +11,5 @@ public static class UiHelper
         byte a = (byte)Mathf.Clamp(Mathf.RoundToInt(color.a * 255f), 0, 255);
 
         return $"{r:X2}{g:X2}{b:X2}{a:X2}";
-    }
-
-    public static void SetBackgroundSprite(GameObject parent, Sprite backgroundImage, Image.Type imageType = Image.Type.Sliced)
-    {
-        var image = parent.GetOrAddComponent<Image>();
-        image.sprite = backgroundImage;
-        image.type = imageType;
-        image.color = Color.white;
     }
 }

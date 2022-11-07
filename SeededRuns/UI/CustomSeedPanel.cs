@@ -16,12 +16,7 @@ public class SeedPanel : UniverseLib.UI.Panels.PanelBase
     private ManualLogSource Logger => SeededRuns.Log;
 
     public static SeedPanel Instance { get; private set; }
-
-    public SeedPanel(UIBase owner) : base(owner)
-    {
-        Instance = this;
-    }
-
+    
     public override string Name => "Seed";
     public override int MinWidth => 320;
     public override int MinHeight => 160;
@@ -37,6 +32,11 @@ public class SeedPanel : UniverseLib.UI.Panels.PanelBase
     public ButtonRef RandomSeedBtn { get; private set; }
     public ButtonRef CloseBtn { get; private set; }
 
+    public SeedPanel(UIBase owner) : base(owner)
+    {
+        Instance = this;
+    }
+    
     protected override void ConstructPanelContent()
     {
         #region TitleArea
