@@ -41,6 +41,10 @@
     </Reference>
   </ItemGroup>
 
+  <ItemGroup>
+    <Folder Include="UI\Base" />
+  </ItemGroup>
+
   <Target Name="PostPublishCleanup" AfterTargets="Publish" Condition="'$(Configuration)' == 'Release'">
     <ItemGroup>
       <FilesToDelete Include="$(PublishDir)*.dll" Exclude="$(PublishDir)$(TargetName)*.dll;$(PublishDir)UniverseLib.IL2CPP.Interop.dll" />

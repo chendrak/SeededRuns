@@ -12,6 +12,8 @@ public static class ConfigHelper
         _configFile = config;
         configSeed = _configFile.Bind(
             "Seeds", "LastUsedSeed", -1, "A user selected seed that is used in all runs");
+        
+        SeededRuns.Log.LogInfo($"Saved seed: {GetLastUsedSeed()}");
     }
 
     public static void UpdateSeed(int seed)
