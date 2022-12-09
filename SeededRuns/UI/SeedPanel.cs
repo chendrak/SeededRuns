@@ -1,4 +1,4 @@
-using BepInEx.Logging;
+using RogueGenesia.UI;
 using SeededRuns.Helpers;
 using SeededRuns.UI.Extensions;
 using SeededRuns.UI.Helper;
@@ -100,6 +100,7 @@ public class SeedPanel : BasePanel
         if (int.TryParse(_seedInput.Text, out parsedSeed))
         {
             ConfigHelper.UpdateSeed(parsedSeed);
+            StartGameManager.Instance.Seed = parsedSeed;
             _originalClickedEvent.Invoke();
             SetActive(false);
         }

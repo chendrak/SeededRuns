@@ -10,13 +10,13 @@ using SeededRuns.UI;
 namespace SeededRuns.Helpers;
 
 [HarmonyPatch]
-internal static class UiElementLocatorStartGameHooks
+public static class UiElementLocatorStartGameHooks
 {
     [HarmonyPostfix]
-    [HarmonyPatch(typeof(MainMenuManager), nameof(MainMenuManager.Start))]
-    public static void OnMainMenuManagerStartCalled(MainMenuManager __instance)
+    [HarmonyPatch(typeof(StartGameManager), nameof(StartGameManager.Start))]
+    public static void OnMainMenuManagerStartCalled(StartGameManager __instance)
     {
-        UiElementLocator.FindButtonsInMainMenu(__instance);
+        UiElementLocator.FindButtonsInStartGameManager(__instance);
     }
 
     [HarmonyPostfix]
@@ -29,36 +29,27 @@ internal static class UiElementLocatorStartGameHooks
 
 public static class UiElementLocator
 {
-    private static Button? startRogModeButton;
-    private static Button? startSurvivorsModeButton;
+    private static Button? startGameButton;
     private static Text? stageText;
 
-    public static void FindButtonsInMainMenu(MainMenuManager mainMenuManager)
+    public static void FindButtonsInStartGameManager(StartGameManager startGameManager)
     {
-        startRogModeButton = null;
-        startSurvivorsModeButton = null;
-        mainMenuManager.StartCoroutine(FindButtons(mainMenuManager));
+        startGameButton = null;
+        startGameManager.StartCoroutine(FindButtons(startGameManager));
     }
 
-    private static IEnumerator FindButtons(MainMenuManager mainMenuManager)
+    private static IEnumerator FindButtons(StartGameManager startGameManager)
     {
-        while (startRogModeButton == null || startSurvivorsModeButton == null)
+        while (startGameButton == null)
         {
-            if (mainMenuManager.RogModeNewGameButton != null)
+            if (startGameManager.PlayButton != null)
             {
-                startRogModeButton = mainMenuManager.RogModeNewGameButton.GetComponent<Button>();
-                SeededRuns.Log.LogDebug($"Found startRogModeButton: {startRogModeButton}");
-                SeedPanelController.SetRogButton(startRogModeButton);
+                startGameButton = startGameManager.PlayButton.TryCast<Button>();
+                SeededRuns.Log.LogInfo($"Found startGameButton: {startGameButton}");
+                SeedPanelController.SetStartGameButton(startGameButton);
             }
 
-            if (mainMenuManager.SurvivorsModeNewGameButton != null)
-            {
-                startSurvivorsModeButton = mainMenuManager.SurvivorsModeNewGameButton.GetComponent<Button>();
-                SeededRuns.Log.LogDebug($"Found startSurvivorsModeButton: {startSurvivorsModeButton}");
-                SeedPanelController.SetSurvivorsModeButton(startSurvivorsModeButton);
-            }
-
-            yield return new WaitForSeconds(0.1f);
+            yield return new WaitForSeconds(0.2f);
         }
     }
 
