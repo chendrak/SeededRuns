@@ -11,7 +11,7 @@ using Object = UnityEngine.Object;
 namespace SeededRuns.UI;
 
 [HarmonyPatch]
-internal static class SeedOnMapControllerHooks
+public static class SeedOnMapControllerHooks
 {
     [HarmonyPostfix]
     [HarmonyPatch(typeof(StageSelectionManager), nameof(StageSelectionManager.Start))]

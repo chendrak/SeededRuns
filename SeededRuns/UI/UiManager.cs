@@ -1,6 +1,8 @@
 #nullable enable
+using System.Collections.Generic;
 using System.IO;
 using BepInEx.Logging;
+using HarmonyLib;
 using UnityEngine;
 using UniverseLib;
 using UniverseLib.UI;
@@ -15,7 +17,7 @@ internal static class UiManager
 
     internal static void Initialize()
     {
-        const float startupDelay = 2f;
+        const float startupDelay = 0f;
         UniverseLib.Config.UniverseLibConfig config = new()
         {
             Disable_EventSystem_Override = false, // or null
@@ -27,8 +29,20 @@ internal static class UiManager
         Universe.Init(startupDelay, OnInitialized, LogHandler, config);
     }
 
+    internal static void Deinitialize()
+    {
+        Logger.LogInfo($"UiManager.Deinitialize");
+        var registeredUIs = Traverse.Create(typeof(UniversalUI)).Field<Dictionary<string, UIBase>>("registeredUIs");
+        registeredUIs.Value.Remove(MyPluginInfo.PLUGIN_GUID);
+        var uiBases = Traverse.Create(typeof(UniversalUI)).Field<List<UIBase>>("uiBases");
+        uiBases.Value.Remove(UiBase);
+        Object.Destroy(UiBase.RootObject);
+        UiBase = null;
+    }
+
     static void OnInitialized()
     {
+        Logger.LogInfo($"UiManager.OnInitialized");
         UiBase = UniversalUI.RegisterUI(MyPluginInfo.PLUGIN_GUID, UiUpdate);
     }
 
