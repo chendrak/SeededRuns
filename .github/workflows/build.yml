@@ -36,11 +36,11 @@ jobs:
       - name: "Publish configuration: ${{ matrix.configuration }}"
         run: dotnet publish -c ${{ matrix.configuration }} --no-build --nologo -o publish_output
       - name: "Zip binaries for configuration: ${{ matrix.configuration }}"
-        run: pushd publish_output && zip ../EasyCards-${{ matrix.configuration }}-${{github.run_number}}.zip -r ./; popd
-      - name: Upload EasyCards-${{ matrix.configuration }}-${{github.run_number}}.zip
+        run: pushd publish_output && zip ../SeededRuns-${{ matrix.configuration }}-${{github.run_number}}.zip -r ./; popd
+      - name: Upload SeededRuns-${{ matrix.configuration }}-${{github.run_number}}.zip
         uses: actions/upload-artifact@v3
         with:
-          name: EasyCards-${{ matrix.configuration }}-${{github.run_number}}.zip
-          path: EasyCards-${{ matrix.configuration }}-${{github.run_number}}.zip
+          name: SeededRuns-${{ matrix.configuration }}-${{github.run_number}}.zip
+          path: SeededRuns-${{ matrix.configuration }}-${{github.run_number}}.zip
         
         
